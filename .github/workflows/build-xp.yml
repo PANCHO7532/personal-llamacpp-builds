@@ -32,9 +32,20 @@ jobs:
           repository: "ggml-org/llama.cpp"
           path: "llamasrc"
           fetch-depth: 1
-      
+
+      - name: "Checkout httplib source code"
+        uses: actions/checkout@v4
+        with:
+          repository: "yhirose/cpp-httplib"
+          path: "httplibsrc"
+          ref: "v0.19.0"
+          fetch-depth: 1
+
+      - name: "Generate and replace httplib sources"
+        run: "cd httplibsrc && python3 split.py && cp outhttplib.cpp ../llamasrc/vendor/cpp-httplib/httplib.cpp && cp outhttplib.h ../llamasrc/vendor/cpp-httplib/httplib.h"
+
       - name: Prepare build
-        run: cd llamasrc && cmake -B build -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DBUILD_SHARED_LIBS=OFF -DGGML_STATIC=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TOOLS=ON -DLLAMA_CURL=OFF -DLLAMA_HTTPLIB=OFF -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
+        run: cd llamasrc && cmake -B build -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DBUILD_SHARED_LIBS=OFF -DGGML_STATIC=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TOOLS=ON -DLLAMA_CURL=OFF -DLLAMA_HTTPLIB=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
         run: "cd llamasrc && cmake --build build --config Release --parallel 2"
