@@ -48,7 +48,7 @@ jobs:
         run: "cd httplibsrc && python3 split.py && cp outhttplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && cp outhttplib.h ../llamasrc/vendor/cpp-httplib/httplib.h"
 
       - name: Prepare build
-        run: cd llamasrc && cmake -B build -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DBUILD_SHARED_LIBS=OFF -DGGML_STATIC=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TOOLS=ON -DLLAMA_CURL=OFF -DLLAMA_HTTPLIB=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
+        run: cd llamasrc && cmake -B build -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" -DBUILD_SHARED_LIBS=OFF -DGGML_STATIC=ON -DLLAMA_BUILD_COMMON=ON -DLLAMA_BUILD_EXAMPLES=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_SERVER=ON -DLLAMA_BUILD_TOOLS=ON -DLLAMA_CURL=OFF -DLLAMA_HTTPLIB=ON -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
         run: "cd llamasrc && cmake --build build --config Release --parallel 2"
