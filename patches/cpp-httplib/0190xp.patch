@@ -1,0 +1,15 @@
+diff --git a/split.py b/split.py
+index 4d8b307..a8a536a 100755
+--- a/split.py
++++ b/split.py
+@@ -20,8 +20,8 @@ args = args_parser.parse_args()
+ 
+ cur_dir = os.path.dirname(sys.argv[0])
+ lib_name = 'httplib'
+-header_name = '/' + lib_name + '.h'
+-source_name = '/' + lib_name + '.' + args.extension
++header_name = '' + lib_name + '.h'
++source_name = '' + lib_name + '.' + args.extension
+ # get the input file
+ in_file = cur_dir + header_name
+ # get the output file
