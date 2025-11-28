@@ -1,0 +1,13 @@
+diff --git a/vendor/cpp-httplib/CMakeLists.txt b/vendor/cpp-httplib/CMakeLists.txt
+index 0fa1cd9..26d266f 100644
+--- a/vendor/cpp-httplib/CMakeLists.txt
++++ b/vendor/cpp-httplib/CMakeLists.txt
+@@ -8,7 +8,7 @@ if (NOT MSVC)
+     target_compile_options(${TARGET} PRIVATE -w)
+ endif()
+ 
+-target_link_libraries  (${TARGET} PRIVATE Threads::Threads)
++target_link_libraries  (${TARGET} PRIVATE Threads::Threads ws2_32)
+ target_compile_features(${TARGET} PRIVATE cxx_std_17)
+ 
+ target_compile_definitions(${TARGET} PRIVATE
