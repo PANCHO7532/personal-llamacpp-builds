@@ -21,7 +21,7 @@ jobs:
         run: apk update && apk add nodejs && mkdir -p /__e/node20_alpine/bin && ln -s $(which node) /__e/node20_alpine/bin/node && ln -s $(which npm) /__e/node20_alpine/bin/npm && ln -s $(which npx) /__e/node20_alpine/bin/npx
 
       - name: Setup
-        run: "apk update && apk add git cmake make gcc g++ musl-dev linux-headers mingw-w64-binutils mingw-w64-crt mingw-w64-gcc mingw-w64-gcc-ccache mingw-w64-headers mingw-w64-headers-doc mingw-w64-winpthreads mingw-w64-winpthreads-doc"
+        run: "apk update && apk add python3 git cmake make gcc g++ musl-dev linux-headers mingw-w64-binutils mingw-w64-crt mingw-w64-gcc mingw-w64-gcc-ccache mingw-w64-headers mingw-w64-headers-doc mingw-w64-winpthreads mingw-w64-winpthreads-doc"
       
       - name: Checkout this repository code
         uses: actions/checkout@v4
