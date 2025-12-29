@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   buildv7l:
-    name: ARMv7-L build
+    name: ARMv7-L build (32-bit)
     runs-on: ubuntu-latest
     outputs:
       artifact_name: llamacpp-android23-armv7l
