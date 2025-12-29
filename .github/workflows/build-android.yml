@@ -31,7 +31,10 @@ jobs:
           fetch-depth: 1
 
       - name: Replace subprocess.h with compatible code
-        run: cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h
+        run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
+
+      - name: Patch llama.cpp
+        run: "cd llamasrc && git apply ../patches/llamacpp/armv7l.patch"
 
       - name: Prepare build
         run: |
