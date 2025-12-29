@@ -34,7 +34,8 @@ jobs:
         run: cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h
 
       - name: Prepare build
-        run: 'cd llamasrc && cmake -B build \
+        run: |
+          cd llamasrc && cmake -B build \
           -DANDROID_ABI="armeabi-v7a" \
           -DANDROID_PLATFORM="android-23" \
           -DBUILD_SHARED_LIBS=OFF \
