@@ -53,7 +53,7 @@ jobs:
           -DCMAKE_CXX_FLAGS="-march=armv8.7a+nodotprod+noi8mm -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_EXE_LINKER_FLAGS="-s" \
-          -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake"'
+          -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake"
 
       - name: Build llama.cpp
         run: "cd llamasrc && cmake --build build --config Release --parallel 2"
