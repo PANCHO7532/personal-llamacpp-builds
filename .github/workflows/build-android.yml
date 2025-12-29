@@ -13,17 +13,17 @@ jobs:
       artifact_name: llamacpp-android23-armv7l
     steps:
       - name: Checkout this repository
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
 
       - name: Checkout llama.cpp code
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           repository: "ggml-org/llama.cpp"
           path: "llamasrc"
           fetch-depth: 1
 
       - name: Checkout subprocess.h code
-        run: actions/checkout@v4
+        uses: actions/checkout@v4
         with:
           repository: "sheredom/subprocess.h"
           path: "subprocesshsrc"
