@@ -1,0 +1,69 @@
+name: Android build
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  buildv7l:
+    name: ARMv7-L build
+    runs-on: ubuntu-latest
+    outputs:
+      artifact_name: llamacpp-android23-armv7l
+    steps:
+      - name: Checkout this repository
+        run: actions/checkout@v4
+
+      - name: Checkout llama.cpp code
+        run: actions/checkout@v4
+        with:
+          repository: "ggml-org/llama.cpp"
+          path: "llamasrc"
+          fetch-depth: 1
+
+      - name: Checkout subprocess.h code
+        run: actions/checkout@v4
+        with:
+          repository: "sheredom/subprocess.h"
+          path: "subprocesshsrc"
+          ref: d0833bf632601a190b30a33a4c71173c4d3c353f
+          fetch-depth: 1
+
+      - name: Replace subprocess.h with compatible code
+        run: cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h
+
+      - name: Prepare build
+        run: 'cd llamasrc && cmake -B build \
+          -DANDROID_ABI="armeabi-v7a" \
+          -DANDROID_PLATFORM="android-23" \
+          -DBUILD_SHARED_LIBS=OFF \
+          -DGGML_STATIC=ON \
+          -DLLAMA_BUILD_COMMON=ON \
+          -DLLAMA_BUILD_EXAMPLES=OFF \
+          -DLLAMA_BUILD_TESTS=OFF \
+          -DLLAMA_BUILD_SERVER=ON \
+          -DLLAMA_BUILD_TOOLS=ON \
+          -DLLAMA_CURL=OFF \
+          -DLLAMA_HTTPLIB=ON \
+          -DGGML_OPENMP=OFF \
+          -DGGML_LLAMAFILE=OFF \
+          -DCMAKE_C_FLAGS="-march=armv8.7a+nodotprod+noi8mm -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
+          -DCMAKE_CXX_FLAGS="-march=armv8.7a+nodotprod+noi8mm -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_EXE_LINKER_FLAGS="-s" \
+          -DCMAKE_TOOLCHAIN_FILE="$ANDROID_NDK/build/cmake/android.toolchain.cmake"'
+
+      - name: Build llama.cpp
+        run: "cd llamasrc && cmake --build build --config Release --parallel 2"
+      
+      - name: Prepackage
+        run: "mkdir ship && cp llamasrc/build/bin/* ship/"
+
+      - name: "Publish artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          path: ship
+          name: llamacpp-android23-armv7l
+          retention-days: 1
+          compression-level: 9
