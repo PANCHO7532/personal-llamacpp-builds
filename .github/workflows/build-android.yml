@@ -30,6 +30,13 @@ jobs:
           ref: d0833bf632601a190b30a33a4c71173c4d3c353f
           fetch-depth: 1
 
+      - name: Checkout termux-elf-cleaner
+        uses: actions/checkout@v4
+        with:
+          repository: "termux/termux-elf-cleaner"
+          path: "termuxelfcleanersrc"
+          fetch-depth: 1
+
       - name: Replace subprocess.h with compatible code
         run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
 
@@ -60,7 +67,16 @@ jobs:
 
       - name: Build llama.cpp
         run: "cd llamasrc && cmake --build build --config Release --parallel 2"
-      
+
+      - name: Prepare termux-elf-cleaner build
+        run: "cd termuxelfcleanersrc && cmake -B build -DCMAKE_BUILD_TYPE=Release"
+
+      - name: Build termux-elf-cleaner
+        run: "cd termuxelfcleanersrc && cmake --build build --config Release --parallel 2"
+
+      - name: Clean binaries
+        run: "for file in llamasrc/build/bin/*; do termuxelfcleanersrc/build/termux-elf-cleaner $file; done"
+
       - name: Prepackage
         run: "mkdir ship && cp llamasrc/build/bin/* ship/"
 
