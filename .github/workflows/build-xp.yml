@@ -44,8 +44,8 @@ jobs:
       - name: "Patch httplib repo"
         run: "cd httplibsrc && git apply ../patches/cpp-httplib/0190xp.patch"
       
-      - name: "Patch llama.cpp repo"
-        run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: "Generate and replace httplib sources"
         run: "cd httplibsrc && python3 split.py && cp outhttplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && cp outhttplib.h ../llamasrc/vendor/cpp-httplib/httplib.h"
@@ -104,8 +104,8 @@ jobs:
       - name: "Patch httplib repo"
         run: "cd httplibsrc && git apply ../patches/cpp-httplib/0190xp.patch"
       
-      - name: "Patch llama.cpp repo"
-        run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: "Generate and replace httplib sources"
         run: "cd httplibsrc && python3 split.py && cp outhttplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && cp outhttplib.h ../llamasrc/vendor/cpp-httplib/httplib.h"
@@ -157,8 +157,8 @@ jobs:
       - name: "Patch httplib repo"
         run: "cd httplibsrc && git apply ../patches/cpp-httplib/0190xp.patch"
       
-      - name: "Patch llama.cpp repo"
-        run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: "Generate and replace httplib sources"
         run: "cd httplibsrc && python3 split.py && cp outhttplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && cp outhttplib.h ../llamasrc/vendor/cpp-httplib/httplib.h"
