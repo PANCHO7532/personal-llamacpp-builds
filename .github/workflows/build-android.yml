@@ -75,7 +75,7 @@ jobs:
         run: "cd termuxelfcleanersrc && cmake --build build --config Release --parallel 2"
 
       - name: Clean binaries
-        run: "for file in llamasrc/build/bin/*; do termuxelfcleanersrc/build/termux-elf-cleaner $file; done"
+        run: "for file in llamasrc/build/bin/*; do termuxelfcleanersrc/build/termux-elf-cleaner --api-level 23 $file; done"
 
       - name: Prepackage
         run: "mkdir ship && cp llamasrc/build/bin/* ship/"
