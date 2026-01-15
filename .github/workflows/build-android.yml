@@ -41,7 +41,7 @@ jobs:
         run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
 
       - name: Patch llama.cpp
-        run: "cd llamasrc && git apply ../patches/llamacpp/armv7l.patch"
+        run: "cd llamasrc && git apply ../patches/llamacpp/android/*.patch"
 
       - name: Prepare build
         run: |
