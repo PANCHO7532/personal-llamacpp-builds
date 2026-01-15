@@ -6,9 +6,9 @@ Unfortunately GitHub actions isn't entirely free so i'll be running the workflow
 
 ## Builds currently being made
 - Windows XP x86/x64, CPU only
+- Android armv7l targeting Android API 21 (5.0 Lollipop), CPU only
 
 ## Planned builds
-- Android (armv7/arm64) targeting version 4 or 5
-- Ubuntu 12.04 build
+- Earliest glibc Ubuntu build
 
 #### More info to be added soon:tm:
