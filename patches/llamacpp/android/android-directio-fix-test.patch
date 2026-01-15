@@ -1,0 +1,13 @@
+diff --git a/src/llama-mmap.cpp b/src/llama-mmap.cpp
+index fe0847fe1..32fb05caf 100644
+--- a/src/llama-mmap.cpp
++++ b/src/llama-mmap.cpp
+@@ -265,7 +265,7 @@ struct llama_file::impl {
+                         continue;  // Interrupted by signal, retry
+                     }
+                     // Fallback to std::fread in case the DMA controller cannot access the buffer
+-                    if (errno == EFAULT) {
++                    if (errno == EFAULT || errno == EINVAL) {
+                         auto curr_off = tell();
+                         close(fd);
+                         fd = -1;
