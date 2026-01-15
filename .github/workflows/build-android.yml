@@ -10,7 +10,7 @@ jobs:
     name: ARMv7-L build (32-bit)
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: llamacpp-android23-armv7l
+      artifact_name: llamacpp-android21-armv7l
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -47,7 +47,7 @@ jobs:
         run: |
           cd llamasrc && cmake -B build \
           -DANDROID_ABI="armeabi-v7a" \
-          -DANDROID_PLATFORM="android-23" \
+          -DANDROID_PLATFORM="android-21" \
           -DBUILD_SHARED_LIBS=OFF \
           -DGGML_STATIC=ON \
           -DLLAMA_BUILD_COMMON=ON \
@@ -75,7 +75,7 @@ jobs:
         run: "cd termuxelfcleanersrc && cmake --build build --config Release --parallel 2"
 
       - name: Clean binaries
-        run: "for file in llamasrc/build/bin/*; do termuxelfcleanersrc/build/termux-elf-cleaner --api-level 23 $file; done"
+        run: "for file in llamasrc/build/bin/*; do termuxelfcleanersrc/build/termux-elf-cleaner --api-level 21 $file; done"
 
       - name: Prepackage
         run: "mkdir ship && cp llamasrc/build/bin/* ship/"
@@ -84,6 +84,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ship
-          name: llamacpp-android23-armv7l
+          name: llamacpp-android21-armv7l
           retention-days: 1
           compression-level: 9
