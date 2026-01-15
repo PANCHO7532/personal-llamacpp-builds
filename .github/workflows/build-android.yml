@@ -58,9 +58,9 @@ jobs:
           -DLLAMA_CURL=OFF \
           -DLLAMA_HTTPLIB=ON \
           -DGGML_OPENMP=OFF \
-          -DGGML_LLAMAFILE=OFF \
-          -DCMAKE_C_FLAGS="-march=armv8.7a+nodotprod+noi8mm -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
-          -DCMAKE_CXX_FLAGS="-march=armv8.7a+nodotprod+noi8mm -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
+          -DGGML_LLAMAFILE=ON \
+          -DCMAKE_C_FLAGS="-march=armv8.7a+nodotprod+noi8mm -mfpu=neon-fp16 -mfloat-abi=softfp -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
+          -DCMAKE_CXX_FLAGS="-march=armv8.7a+nodotprod+noi8mm -mfpu=neon-fp16 -mfloat-abi=softfp -U__ARM_FEATURE_DOTPROD -U__ARM_FEATURE_MATMUL_INT8" \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_EXE_LINKER_FLAGS="-s" \
           -DCMAKE_WARN_DEPRECATED=FALSE \
