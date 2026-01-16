@@ -10,7 +10,7 @@ jobs:
     name: 32-bit UCRT build
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: llamacpp-wxp-x86
+      artifact_name: llamacpp-wxp-x86-ucrt
     container: 
       image: i386/alpine:3.22
       volumes:
@@ -114,14 +114,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ship
-          name: llamacpp-wxp-x86
+          name: llamacpp-wxp-x86-ucrt
           retention-days: 1
           compression-level: 9
   build32nosse:
     name: 32-bit no SSE UCRT build
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: llamacpp-wxp-no-sse-x86
+      artifact_name: llamacpp-wxp-no-sse-x86-ucrt
     container: 
       image: i386/alpine:3.22
       volumes:
@@ -222,14 +222,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ship
-          name: llamacpp-wxp-no-sse-x86
+          name: llamacpp-wxp-no-sse-x86-ucrt
           retention-days: 1
           compression-level: 9
   build64:
     name: 64-bit UCRT build
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: llamacpp-wxp-x64
+      artifact_name: llamacpp-wxp-x64-ucrt
     container: amd64/alpine:3.22
     steps:
       - name: Setup
@@ -316,6 +316,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ship
-          name: llamacpp-wxp-x64
+          name: llamacpp-wxp-x64-ucrt
           retention-days: 1
           compression-level: 9
