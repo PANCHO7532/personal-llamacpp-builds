@@ -1,6 +1,7 @@
 name: Windows XP build
 on:
   workflow_dispatch:
+  workflow_call:
 
 permissions:
   contents: write
