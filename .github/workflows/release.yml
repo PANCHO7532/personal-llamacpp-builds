@@ -12,6 +12,8 @@ jobs:
   build-android:
     name: "Trigger Android builds"
     uses: ./.github/workflows/build-android.yml
+    permissions:
+      contents: write
 
   release:
     name: "Create release"
