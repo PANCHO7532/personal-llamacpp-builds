@@ -1,0 +1,48 @@
+name: Release
+on:
+  workflow_dispatch:
+
+jobs:
+  #build-xp:
+  #  name: "Trigger Windows XP builds"
+  #  uses: ./.github/workflows/build-xp.yml
+  #  permissions:
+  #    contents: read
+
+  build-android:
+    name: "Trigger Android builds"
+    uses: ./.github/workflows/build-android.yml
+    permissions:
+      contents: read
+
+  release:
+    name: "Create release"
+    #needs: [build-xp, build-android]
+    needs: build-android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+
+      - name: Repack artifacts
+        run: |
+          mkdir ./dist
+          for dir in ./artifacts/*/; do
+          name=$(basename "$dir")
+          zip -9 -r "./dist/${name}.zip" "$dir"
+          done
+
+      - name: Create release and upload artifacts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          RELEASE_TAG="${{ github.run_id }}_${{ github.run_attempt}}"
+          gh release create "$RELEASE_TAG" \
+            --title "$RELEASE_TAG" \
+            --notes "Automated release from run ${{ github.run_id }}" \
+            ./dist/*.zip
