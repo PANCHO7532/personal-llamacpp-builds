@@ -93,6 +93,7 @@ jobs:
           -DLLAMA_CURL=OFF \
           -DLLAMA_HTTPLIB=ON \
           -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_EXE_LINKER_FLAGS="-s" \
           -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
@@ -201,6 +202,7 @@ jobs:
           -DLLAMA_CURL=OFF \
           -DLLAMA_HTTPLIB=ON \
           -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_EXE_LINKER_FLAGS="-s" \
           -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
@@ -295,6 +297,7 @@ jobs:
           -DLLAMA_CURL=OFF \
           -DLLAMA_HTTPLIB=ON \
           -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_EXE_LINKER_FLAGS="-s" \
           -DCMAKE_TOOLCHAIN_FILE="../mingw64.cmake"
 
       - name: "Build llama.cpp"
