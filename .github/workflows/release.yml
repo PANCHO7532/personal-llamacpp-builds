@@ -43,6 +43,7 @@ jobs:
         run: |
           RELEASE_TAG="${{ github.run_id }}_${{ github.run_attempt}}"
           gh release create "$RELEASE_TAG" \
+            --repo ${{ github.repository }} \
             --title "$RELEASE_TAG" \
             --notes "Automated release from run ${{ github.run_id }}" \
             ./dist/*.zip
