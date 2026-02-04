@@ -7,7 +7,7 @@ jobs:
     name: "Trigger Windows XP builds"
     uses: ./.github/workflows/build-xp.yml
     permissions:
-      contents: read
+      contents: write
 
   build-android:
     name: "Trigger Android builds"
