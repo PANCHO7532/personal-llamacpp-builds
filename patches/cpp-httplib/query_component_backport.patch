@@ -1,0 +1,100 @@
+diff --git a/httplib.h b/httplib.h
+index e4799da..ad90d39 100644
+--- a/httplib.h
++++ b/httplib.h
+@@ -324,6 +324,9 @@ using socket_t = int;
+  */
+ namespace httplib {
+ 
++std::string encode_query_component(const std::string &component, bool space_as_plus = true);
++std::string decode_query_component(const std::string &component, bool plus_as_space = true);
++
+ namespace detail {
+ 
+ /*
+@@ -1165,6 +1168,85 @@ std::string to_string(Error error);
+ 
+ std::ostream &operator<<(std::ostream &os, const Error &obj);
+ 
++inline std::string encode_query_component(const std::string &component,
++                                          bool space_as_plus) {
++  std::string result;
++  result.reserve(component.size() * 3);
++
++  for (size_t i = 0; i < component.size(); i++) {
++    auto c = static_cast<unsigned char>(component[i]);
++
++    // Unreserved characters per RFC 3986
++    if (std::isalnum(c) || c == '-' || c == '.' || c == '_' || c == '~') {
++      result += static_cast<char>(c);
++    }
++    // Space handling
++    else if (c == ' ') {
++      if (space_as_plus) {
++        result += '+';
++      } else {
++        result += "%20";
++      }
++    }
++    // Plus sign handling
++    else if (c == '+') {
++      if (space_as_plus) {
++        result += "%2B";
++      } else {
++        result += static_cast<char>(c);
++      }
++    }
++    // Query-safe sub-delimiters (excluding & and = which are query delimiters)
++    else if (c == '!' || c == '$' || c == '\'' || c == '(' || c == ')' ||
++             c == '*' || c == ',' || c == ';') {
++      result += static_cast<char>(c);
++    }
++    // Colon and @ are allowed in query
++    else if (c == ':' || c == '@') {
++      result += static_cast<char>(c);
++    }
++    // Forward slash is allowed in query values
++    else if (c == '/') {
++      result += static_cast<char>(c);
++    }
++    // Question mark is allowed in query values (after first ?)
++    else if (c == '?') {
++      result += static_cast<char>(c);
++    } else {
++      result += '%';
++      char hex[3];
++      snprintf(hex, sizeof(hex), "%02X", c);
++      result.append(hex, 2);
++    }
++  }
++  return result;
++}
++
++inline std::string decode_query_component(const std::string &component,
++                                          bool plus_as_space) {
++  std::string result;
++  result.reserve(component.size());
++
++  for (size_t i = 0; i < component.size(); i++) {
++    if (component[i] == '%' && i + 2 < component.size()) {
++      std::string hex = component.substr(i + 1, 2);
++      char *end;
++      unsigned long value = std::strtoul(hex.c_str(), &end, 16);
++      if (end == hex.c_str() + 2) {
++        result += static_cast<char>(value);
++        i += 2;
++      } else {
++        result += component[i];
++      }
++    } else if (component[i] == '+' && plus_as_space) {
++      result += ' '; // + becomes space in form-urlencoded
++    } else {
++      result += component[i];
++    }
++  }
++  return result;
++}
++
+ class Result {
+ public:
+   Result() = default;
