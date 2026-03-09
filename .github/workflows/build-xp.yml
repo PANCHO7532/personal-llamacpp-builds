@@ -66,7 +66,7 @@ jobs:
           fetch-depth: 1
 
       - name: "Patch httplib repo"
-        run: "cd httplibsrc && git apply ../patches/cpp-httplib/0190xp.patch"
+        run: "cd httplibsrc && git apply ../patches/cpp-httplib/*.patch"
       
       #- name: "Patch llama.cpp repo"
       #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
@@ -174,7 +174,7 @@ jobs:
           fetch-depth: 1
 
       - name: "Patch httplib repo"
-        run: "cd httplibsrc && git apply ../patches/cpp-httplib/0190xp.patch"
+        run: "cd httplibsrc && git apply ../patches/cpp-httplib/*.patch"
       
       #- name: "Patch llama.cpp repo"
       #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
