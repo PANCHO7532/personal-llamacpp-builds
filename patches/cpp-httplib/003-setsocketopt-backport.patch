@@ -1,0 +1,38 @@
+diff --git a/httplib.h b/httplib.h
+index ad90d39..f9e2876 100644
+--- a/httplib.h
++++ b/httplib.h
+@@ -327,8 +327,21 @@ namespace httplib {
+ std::string encode_query_component(const std::string &component, bool space_as_plus = true);
+ std::string decode_query_component(const std::string &component, bool plus_as_space = true);
+ 
++bool set_socket_opt(socket_t sock, int level, int optname, int optval);
++
+ namespace detail {
+ 
++inline bool set_socket_opt_impl(socket_t sock, int level, int optname,
++                                const void *optval, socklen_t optlen) {
++  return setsockopt(sock, level, optname,
++#ifdef _WIN32
++                    reinterpret_cast<const char *>(optval),
++#else
++                    optval,
++#endif
++                    optlen) == 0;
++}
++
+ /*
+  * Backport std::make_unique from C++14.
+  *
+@@ -437,6 +450,11 @@ private:
+ 
+ } // namespace detail
+ 
++inline bool set_socket_opt(socket_t sock, int level, int optname, int optval) {
++  return detail::set_socket_opt_impl(sock, level, optname, &optval,
++                                     sizeof(optval));
++}
++
+ enum StatusCode {
+   // Information responses
+   Continue_100 = 100,
