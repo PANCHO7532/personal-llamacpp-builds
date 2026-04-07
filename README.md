@@ -6,7 +6,7 @@ Unfortunately GitHub actions isn't entirely free and due to how the workflows ar
 
 ## Builds currently being made
 - Windows XP x86/x64, CPU only
-- Android armv7l targeting Android API 21 (5.0 Lollipop), CPU only
+- Android armv7l and armv8 targeting Android API 21 (5.0 Lollipop), CPU only
 
 ## Planned builds
 - Earliest glibc Ubuntu build
