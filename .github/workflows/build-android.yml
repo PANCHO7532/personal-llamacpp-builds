@@ -93,7 +93,7 @@ jobs:
     name: ARMv8-A build (64-bit)
     runs-on: ubuntu-latest
     outputs:
-      artifact_name: llamacpp-android21-armv8
+      artifact_name: llamacpp-android21-armv8a
     steps:
       - name: Checkout this repository
         uses: actions/checkout@v4
@@ -168,6 +168,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: ship
-          name: llamacpp-android21-armv8
+          name: llamacpp-android21-armv8a
           retention-days: 1
           compression-level: 9
