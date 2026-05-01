@@ -1,0 +1,127 @@
+diff --git a/vendor/cpp-httplib/httplib.cpp b/vendor/cpp-httplib/httplib.cpp
+index 66c0b6ebd..09bea89fe 100644
+--- a/vendor/cpp-httplib/httplib.cpp
++++ b/vendor/cpp-httplib/httplib.cpp
+@@ -1461,6 +1461,7 @@ bool mmap::open(const char *path) {
+   close();
+ 
+ #if defined(_WIN32)
++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x0602
+   auto wpath = u8string_to_wstring(path);
+   if (wpath.empty()) { return false; }
+ 
+@@ -1503,6 +1504,20 @@ bool mmap::open(const char *path) {
+     close();
+     return false;
+   }
++#else
++  hFile_ = ::CreateFileA(path, GENERIC_READ, FILE_SHARE_READ, NULL,
++                         OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
++  if (hFile_ == INVALID_HANDLE_VALUE) { return false; }
++  size_ = ::GetFileSize(hFile_, NULL);
++
++  hMapping_ = ::CreateFileMapping(hFile_, NULL, PAGE_READONLY, 0, 0, NULL);
++
++  if (hMapping_ == NULL) {
++    close();
++    return false;
++  }
++  addr_ = ::MapViewOfFile(hMapping_, FILE_MAP_READ, 0, 0, 0);
++#endif
+ #else
+   fd_ = ::open(path, O_RDONLY);
+   if (fd_ == -1) { return false; }
+@@ -1616,7 +1631,51 @@ ssize_t send_socket(socket_t sock, const void *ptr, size_t size,
+ 
+ int poll_wrapper(struct pollfd *fds, nfds_t nfds, int timeout) {
+ #ifdef _WIN32
++#if defined(_WIN32_WINNT) && _WIN32_WINNT >= 0x0600
+   return ::WSAPoll(fds, nfds, timeout);
++#else
++  if (nfds == 0) {
++    if (timeout > 0) ::Sleep(timeout);
++    return 0;
++  }
++
++  fd_set readfds, writefds, exceptfds;
++  FD_ZERO(&readfds);
++  FD_ZERO(&writefds);
++  FD_ZERO(&exceptfds);
++
++  for (nfds_t i = 0; i < nfds; i++) {
++    fds[i].revents = 0;
++    if (fds[i].fd == INVALID_SOCKET) continue;
++    if (fds[i].events & POLLIN)  FD_SET(fds[i].fd, &readfds);
++    if (fds[i].events & POLLOUT) FD_SET(fds[i].fd, &writefds);
++    // Always watch for errors/OOB
++    FD_SET(fds[i].fd, &exceptfds);
++  }
++
++  struct timeval tv;
++  struct timeval *tvp = nullptr;
++  if (timeout >= 0) {
++    tv.tv_sec  = timeout / 1000;
++    tv.tv_usec = (timeout % 1000) * 1000;
++    tvp = &tv;
++  }
++
++  // Note: first arg to select() is ignored on Windows but must be 0 or
++  // nfds+1 on POSIX. On Win32, pass 0 — it's a no-op there.
++  int ret = ::select(0, &readfds, &writefds, &exceptfds, tvp);
++  if (ret <= 0) return ret; // 0 = timeout, -1 = error
++
++  int count = 0;
++  for (nfds_t i = 0; i < nfds; i++) {
++    if (fds[i].fd == INVALID_SOCKET) continue;
++    if (FD_ISSET(fds[i].fd, &readfds))   fds[i].revents |= POLLIN;
++    if (FD_ISSET(fds[i].fd, &writefds))  fds[i].revents |= POLLOUT;
++    if (FD_ISSET(fds[i].fd, &exceptfds)) fds[i].revents |= POLLERR;
++    if (fds[i].revents) count++;
++  }
++  return count;
++#endif
+ #else
+   return ::poll(fds, nfds, timeout);
+ #endif
+diff --git a/vendor/cpp-httplib/httplib.h b/vendor/cpp-httplib/httplib.h
+index 7e530961b..62a781e7d 100644
+--- a/vendor/cpp-httplib/httplib.h
++++ b/vendor/cpp-httplib/httplib.h
+@@ -13,7 +13,7 @@
+ 
+ #ifdef _WIN32
+ #if defined(_WIN32_WINNT) && _WIN32_WINNT < 0x0A00
+-#error                                                                         \
++#warning                                                                         \
+     "cpp-httplib doesn't support Windows 8 or lower. Please use Windows 10 or later."
+ #endif
+ #endif
+@@ -266,7 +266,27 @@ using ssize_t = __int64;
+ using nfds_t = unsigned long;
+ using socket_t = SOCKET;
+ using socklen_t = int;
+-
++#if defined(_WIN32_WINNT) && _WIN32_WINNT < 0x0600
++#ifndef POLLIN
++#define POLLIN  0x0001
++#endif
++#ifndef POLLOUT
++#define POLLOUT 0x0004
++#endif
++#ifndef POLLERR
++#define POLLERR 0x0008
++#endif
++#ifndef POLLHUP
++#define POLLHUP 0x0010
++#endif
++// struct pollfd is also missing on XP
++struct pollfd {
++  SOCKET fd;
++  short  events;
++  short  revents;
++};
++#else
++#endif
+ #else // not _WIN32
+ 
+ #include <arpa/inet.h>
