@@ -97,7 +97,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
-        run: "cd llamasrc && cmake --build build --config Release --parallel 2"
+        run: "cd llamasrc && cmake --build build --config Release --parallel $(nproc)"
 
       - name: "Prepackage"
         run: |
@@ -206,7 +206,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="../mingw32.cmake"
 
       - name: "Build llama.cpp"
-        run: "cd llamasrc && cmake --build build --config Release --parallel 2"
+        run: "cd llamasrc && cmake --build build --config Release --parallel $(nproc)"
 
       - name: "Prepackage"
         run: |
@@ -301,7 +301,7 @@ jobs:
           -DCMAKE_TOOLCHAIN_FILE="../mingw64.cmake"
 
       - name: "Build llama.cpp"
-        run: "cd llamasrc && cmake --build build --config Release --parallel 2"
+        run: "cd llamasrc && cmake --build build --config Release --parallel $(nproc)"
 
       - name: "Prepackage"
         run: |
