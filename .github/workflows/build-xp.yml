@@ -65,18 +65,18 @@ jobs:
           ref: "v0.43.2"
           fetch-depth: 1
 
-      - name: "Patch httplib repo"
-        run: "cd httplibsrc && git apply ../patches/cpp-httplib/*.patch"
-      
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
-
       - name: "Generate and replace httplib sources"
         run: |
           cd httplibsrc && \
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: "Patch httplib sources"
+        run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
+
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: Prepare build
         run: |
@@ -173,18 +173,18 @@ jobs:
           ref: "v0.43.2"
           fetch-depth: 1
 
-      - name: "Patch httplib repo"
-        run: "cd httplibsrc && git apply ../patches/cpp-httplib/*.patch"
-      
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
-
       - name: "Generate and replace httplib sources"
         run: |
           cd httplibsrc && \
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: "Patch httplib sources"
+        run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
+      
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: Prepare build
         run: |
@@ -269,18 +269,18 @@ jobs:
           ref: "v0.43.2"
           fetch-depth: 1
 
-      - name: "Patch httplib repo"
-        run: "cd httplibsrc && git apply ../patches/cpp-httplib/*.patch"
-      
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
-
       - name: "Generate and replace httplib sources"
         run: |
           cd httplibsrc && \
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: "Patch httplib sources"
+        run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
+      
+      #- name: "Patch llama.cpp repo"
+      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
 
       - name: Prepare build
         run: |
