@@ -81,8 +81,8 @@ jobs:
       - name: Prepare build
         run: |
           cd llamasrc && cmake -B build \
-          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
-          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
+          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00" \
+          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00" \
           -DBUILD_SHARED_LIBS=OFF \
           -DGGML_STATIC=ON \
           -DLLAMA_BUILD_COMMON=ON \
@@ -189,8 +189,8 @@ jobs:
       - name: Prepare build
         run: |
           cd llamasrc && cmake -B build \
-          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -march=pentium -mfpmath=387 -mno-sse -mno-sse2" \
-          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -march=pentium -mfpmath=387 -mno-sse -mno-sse2" \
+          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00 -march=pentium -mfpmath=387 -mno-sse -mno-sse2" \
+          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00 -march=pentium -mfpmath=387 -mno-sse -mno-sse2" \
           -DBUILD_SHARED_LIBS=OFF \
           -DGGML_STATIC=ON \
           -DGGML_SSE42=OFF \
@@ -285,8 +285,8 @@ jobs:
       - name: Prepare build
         run: |
           cd llamasrc && cmake -B build \
-          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
-          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501" \
+          -DCMAKE_C_FLAGS="${CMAKE_C_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00" \
+          -DCMAKE_CXX_FLAGS="${CMAKE_CXX_FLAGS} -D_WIN32_WINNT=0x0501 -DWINVER=0x0501 -DWC_ERR_INVALID_CHARS=0x00" \
           -DBUILD_SHARED_LIBS=OFF \
           -DGGML_STATIC=ON \
           -DLLAMA_BUILD_COMMON=ON \
