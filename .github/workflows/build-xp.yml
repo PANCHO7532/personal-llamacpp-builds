@@ -75,8 +75,8 @@ jobs:
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
 
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      - name: "Patch llama.cpp repo"
+        run: "cd llamasrc && git apply ../patches/llamacpp/*.patch"
 
       - name: Prepare build
         run: |
@@ -183,8 +183,8 @@ jobs:
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
       
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      - name: "Patch llama.cpp repo"
+        run: "cd llamasrc && git apply ../patches/llamacpp/*.patch"
 
       - name: Prepare build
         run: |
@@ -279,8 +279,8 @@ jobs:
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
       
-      #- name: "Patch llama.cpp repo"
-      #  run: "cd llamasrc && git apply ../patches/llamacpp/cmake-httplib.patch"
+      - name: "Patch llama.cpp repo"
+        run: "cd llamasrc && git apply ../patches/llamacpp/*.patch"
 
       - name: Prepare build
         run: |
