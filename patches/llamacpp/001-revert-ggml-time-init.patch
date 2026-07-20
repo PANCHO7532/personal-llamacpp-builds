@@ -1,0 +1,30 @@
+diff --git a/ggml/src/ggml.c b/ggml/src/ggml.c
+index a7d1fe7d9..8537033ec 100644
+--- a/ggml/src/ggml.c
++++ b/ggml/src/ggml.c
+@@ -525,11 +525,7 @@ const char * ggml_commit(void) {
+ 
+ #if defined(_MSC_VER) || defined(__MINGW32__)
+ static int64_t timer_freq, timer_start;
+-static BOOL CALLBACK ggml_time_init_once(PINIT_ONCE once, PVOID param, PVOID *ctx) {
+-    UNUSED(once);
+-    UNUSED(param);
+-    UNUSED(ctx);
+-
++void ggml_time_init(void) {
+     LARGE_INTEGER t;
+     QueryPerformanceFrequency(&t);
+     timer_freq = t.QuadPart;
+@@ -539,12 +535,6 @@ static BOOL CALLBACK ggml_time_init_once(PINIT_ONCE once, PVOID param, PVOID *ct
+     // We subtract the program start time to reduce the likelihood of that happening.
+     QueryPerformanceCounter(&t);
+     timer_start = t.QuadPart;
+-
+-    return TRUE;
+-}
+-void ggml_time_init(void) {
+-    static INIT_ONCE once = INIT_ONCE_STATIC_INIT;
+-    InitOnceExecuteOnce(&once, ggml_time_init_once, NULL, NULL);
+ }
+ int64_t ggml_time_ms(void) {
+     LARGE_INTEGER t;
