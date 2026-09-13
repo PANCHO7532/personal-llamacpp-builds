@@ -1,17 +1,27 @@
 diff --git a/src/llama-mmap.cpp b/src/llama-mmap.cpp
-index fe0847fe1..f0c8d5147 100644
+index 715a6e354..e058454cd 100644
 --- a/src/llama-mmap.cpp
 +++ b/src/llama-mmap.cpp
-@@ -429,14 +429,14 @@ struct llama_mmap::impl {
-         }
+@@ -492,22 +492,22 @@ struct llama_mmap::impl {
+             if (beg >= end) {
+                 return;
+             }
+-            if (posix_madvise((char *) addr + beg, end - beg, advice)) {
+-                LLAMA_LOG_WARN("warning: posix_madvise(.., %s) failed: %s\n", name, strerror(errno));
++            if (madvise((char *) addr + beg, end - beg, advice) < 0) {
++                LLAMA_LOG_WARN("warning: madvise(.., %s) failed: %s\n", name, strerror(errno));
+             }
+         };
  
          if (prefetch > 0) {
--            if (posix_madvise(addr, std::min(file->size(), prefetch), POSIX_MADV_WILLNEED)) {
--                LLAMA_LOG_WARN("warning: posix_madvise(.., POSIX_MADV_WILLNEED) failed: %s\n",
-+            if (madvise(addr, std::min(file->size(), prefetch), MADV_WILLNEED) < 0) {
-+                LLAMA_LOG_WARN("warning: madvise(.., MADV_WILLNEED) failed: %s\n",
-                         strerror(errno));
+             for (const auto & range : ranges_complement(lazy_ranges, std::min(file->size(), prefetch))) {
+-                advise(range.first, range.second, POSIX_MADV_WILLNEED, "POSIX_MADV_WILLNEED");
++                advise(range.first, range.second, MADV_WILLNEED, "MADV_WILLNEED");
              }
+         }
+         for (const auto & range : lazy_ranges) {
+-            advise(range.first, range.second, POSIX_MADV_RANDOM, "POSIX_MADV_RANDOM");
++            advise(range.first, range.second, MADV_RANDOM, "MADV_RANDOM");
          }
          if (numa) {
 -            if (posix_madvise(addr, file->size(), POSIX_MADV_RANDOM)) {
