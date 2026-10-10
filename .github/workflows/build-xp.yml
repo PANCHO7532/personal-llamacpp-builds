@@ -57,6 +57,14 @@ jobs:
           path: "llamasrc"
           fetch-depth: 1
 
+      - name: Checkout subprocess.h code
+        uses: actions/checkout@v4
+        with:
+          repository: "sheredom/subprocess.h"
+          path: "subprocesshsrc"
+          ref: ab7fb8b74ccbb3937ef1fb0244bfbcccf85ae9c6
+          fetch-depth: 1
+
       - name: "Checkout httplib source code"
         uses: actions/checkout@v4
         with:
@@ -71,6 +79,9 @@ jobs:
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: Replace subprocess.h with compatible code
+        run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
 
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
@@ -165,6 +176,14 @@ jobs:
           path: "llamasrc"
           fetch-depth: 1
 
+      - name: Checkout subprocess.h code
+        uses: actions/checkout@v4
+        with:
+          repository: "sheredom/subprocess.h"
+          path: "subprocesshsrc"
+          ref: ab7fb8b74ccbb3937ef1fb0244bfbcccf85ae9c6
+          fetch-depth: 1
+
       - name: "Checkout httplib source code"
         uses: actions/checkout@v4
         with:
@@ -179,6 +198,9 @@ jobs:
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: Replace subprocess.h with compatible code
+        run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
 
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
@@ -261,6 +283,14 @@ jobs:
           path: "llamasrc"
           fetch-depth: 1
 
+      - name: Checkout subprocess.h code
+        uses: actions/checkout@v4
+        with:
+          repository: "sheredom/subprocess.h"
+          path: "subprocesshsrc"
+          ref: ab7fb8b74ccbb3937ef1fb0244bfbcccf85ae9c6
+          fetch-depth: 1
+
       - name: "Checkout httplib source code"
         uses: actions/checkout@v4
         with:
@@ -275,6 +305,9 @@ jobs:
           python3 split.py && \
           cp out/httplib.cc ../llamasrc/vendor/cpp-httplib/httplib.cpp && \
           cp out/httplib.h ../llamasrc/vendor/cpp-httplib/httplib.h
+
+      - name: Replace subprocess.h with compatible code
+        run: "cp subprocesshsrc/subprocess.h llamasrc/vendor/sheredom/subprocess.h"
 
       - name: "Patch httplib sources"
         run: "cd llamasrc && git apply ../patches/cpp-httplib/*.patch"
