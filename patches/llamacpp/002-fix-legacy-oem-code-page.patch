@@ -1,0 +1,13 @@
+diff --git a/tools/server/server-tools.cpp b/tools/server/server-tools.cpp
+index bde774b37..9dd0ffb91 100644
+--- a/tools/server/server-tools.cpp
++++ b/tools/server/server-tools.cpp
+@@ -44,7 +44,7 @@ namespace fs = std::filesystem;
+ static UINT legacy_oem_code_page() {
+     static const UINT cp = [] {
+         DWORD value = 0;
+-        const int ret = GetLocaleInfoEx(LOCALE_NAME_SYSTEM_DEFAULT, LOCALE_IDEFAULTCODEPAGE | LOCALE_RETURN_NUMBER,
++        const int ret = GetLocaleInfoW(LOCALE_SYSTEM_DEFAULT, LOCALE_IDEFAULTCODEPAGE | LOCALE_RETURN_NUMBER,
+                                         reinterpret_cast<LPWSTR>(&value), sizeof(value) / sizeof(WCHAR));
+         if (ret > 0 && value && value != CP_OEMCP) {
+             return static_cast<UINT>(value);
