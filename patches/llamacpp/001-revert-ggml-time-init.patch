@@ -1,8 +1,8 @@
 diff --git a/ggml/src/ggml.c b/ggml/src/ggml.c
-index a7d1fe7d9..8537033ec 100644
+index c6a080d22..6473e320f 100644
 --- a/ggml/src/ggml.c
 +++ b/ggml/src/ggml.c
-@@ -525,11 +525,7 @@ const char * ggml_commit(void) {
+@@ -536,23 +536,16 @@ const char * ggml_commit(void) {
  
  #if defined(_MSC_VER) || defined(__MINGW32__)
  static int64_t timer_freq, timer_start;
@@ -15,8 +15,10 @@ index a7d1fe7d9..8537033ec 100644
      LARGE_INTEGER t;
      QueryPerformanceFrequency(&t);
      timer_freq = t.QuadPart;
-@@ -539,12 +535,6 @@ static BOOL CALLBACK ggml_time_init_once(PINIT_ONCE once, PVOID param, PVOID *ct
-     // We subtract the program start time to reduce the likelihood of that happening.
+ 
++    // The multiplication by 1000 or 1000000 below can cause an overflow if timer_freq
++    // and the uptime is high enough.
++    // We subtract the program start time to reduce the likelihood of that happening.
      QueryPerformanceCounter(&t);
      timer_start = t.QuadPart;
 -
